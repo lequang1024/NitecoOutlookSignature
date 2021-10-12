@@ -293,10 +293,10 @@
         ele.addEventListener("input", function (e) {
           targetEle.innerHTML = e.target.value;
           if (targetEle.tagName === "A") {
-            if (targetId.includes("phone")) {
+            if (targetId.includes("phone")||targetId.includes("mobile")) {
               targetEle.setAttribute(
                 "href",
-                "tel:" + e.target.value.trim().replace("(0)", "").replace(" ", "")
+                "tel:" + e.target.value.replace("(0)", "").replace(/ /g,'')
               );
             } else if (targetId.includes("email")) {
 				      targetEle.setAttribute(
