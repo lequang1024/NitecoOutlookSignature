@@ -294,7 +294,15 @@
           targetEle.innerHTML = e.target.value;
           if (targetEle.tagName === "A") {
             if (targetId.includes("phone")) {
-              targetEle.setAttribute("href", e.target.value.replace(" ", ""));
+              targetEle.setAttribute(
+                "href",
+                "tel:" + e.target.value.trim().replace("(0)", "").replace(" ", "")
+              );
+            } else if (targetId.includes("email")) {
+				targetEle.setAttribute(
+                "href",
+                "mailto:" + e.target.value.trim()
+              );
             } else {
               targetEle.setAttribute("href", e.target.value);
             }
