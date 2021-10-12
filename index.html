@@ -300,6 +300,8 @@
               );
             } else if (targetId.includes("email")) {
               targetEle.setAttribute("href", "mailto:" + e.target.value.trim());
+            } else if (targetId.includes("skype")) {
+              targetEle.setAttribute("href", "skype:" + e.target.value.trim());
             } else {
               targetEle.setAttribute("href", "https://" + e.target.value);
             }
