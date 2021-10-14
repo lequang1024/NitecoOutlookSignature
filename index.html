@@ -229,6 +229,14 @@
               <div class="col-md-offset-3 col-md-8">
                 <button type="button" id="download" class="btn ni-button">
                   Download
+                  <i class="glyphicon glyphicon-cloud-download py-2"></i>
+                </button>
+                <button
+                  type="button"
+                  id="download-simplified"
+                  class="btn ni-button"
+                >
+                  Download Simplified
                   <i class="glyphicon glyphicon-cloud-download"></i>
                 </button>
               </div>
@@ -236,12 +244,26 @@
           </form>
         </div>
         <div class="col-md-6">
-          <iframe
-            src="outlook-email-signature2.htm"
-            width="700px"
-            height="500px"
-            frameborder="0"
-          ></iframe>
+          <h2>Standard</h2>
+          <div class="row">
+            <iframe
+              id="standard-html"
+              src="outlook-email-signature2.htm"
+              width="700px"
+              height="300px"
+              frameborder="0"
+            ></iframe>
+          </div>
+          <h2>Simplified</h2>
+          <div class="row">
+            <iframe
+              id="simplified-html"
+              src="outlook-email-signatureSimple.htm"
+              width="700px"
+              height="300px"
+              frameborder="0"
+            ></iframe>
+          </div>
         </div>
       </div>
       <hr />
@@ -283,29 +305,38 @@
       }
     }
     document.querySelector("iframe").addEventListener("load", function () {
-      let iframeDoc = document.querySelector("iframe").contentDocument;
+      let iFrameDoc = document.querySelectorAll("iframe");
       document.querySelectorAll(".form-control").forEach(function (ele, i) {
         let targetId = ele.getAttribute("target");
         if (!targetId) return;
-        let targetEle = iframeDoc.querySelector(targetId);
-        console.log(targetId, targetEle);
-        ele.value = targetEle.innerHTML;
-        ele.addEventListener("input", function (e) {
-          targetEle.innerHTML = e.target.value;
-          if (targetEle.tagName === "A") {
-            if (targetId.includes("phone") || targetId.includes("mobile")) {
-              targetEle.setAttribute(
-                "href",
-                "tel:" + e.target.value.replace("(0)", "").replace(/ /g, "")
-              );
-            } else if (targetId.includes("email")) {
-              targetEle.setAttribute("href", "mailto:" + e.target.value.trim());
-            } else if (targetId.includes("skype")) {
-              targetEle.setAttribute("href", "skype:" + e.target.value.trim());
-            } else {
-              targetEle.setAttribute("href", "https://" + e.target.value);
+        iFrameDoc.forEach(function (element, index) {
+          let targetEle = element.contentDocument.querySelector(targetId);
+          console.log(targetId, targetEle);
+          if (!targetEle) return;
+          ele.value = targetEle.innerHTML;
+          ele.addEventListener("input", function (e) {
+            targetEle.innerHTML = e.target.value;
+            if (targetEle.tagName === "A") {
+              if (targetId.includes("phone") || targetId.includes("mobile")) {
+                targetEle.setAttribute(
+                  "href",
+                  "tel:" + e.target.value.replace("(0)", "").replace(/ /g, "")
+                );
+              } else if (targetId.includes("email")) {
+                targetEle.setAttribute(
+                  "href",
+                  "mailto:" + e.target.value.trim()
+                );
+              } else if (targetId.includes("skype")) {
+                targetEle.setAttribute(
+                  "href",
+                  "skype:" + e.target.value.trim()
+                );
+              } else {
+                targetEle.setAttribute("href", "https://" + e.target.value);
+              }
             }
-          }
+          });
         });
       });
       document
@@ -316,6 +347,23 @@
             mimeType = "text/plain",
             data =
               document.querySelector("iframe").contentDocument.body.innerHTML;
+          var link = document.createElement("a");
+          link.setAttribute("download", fileName);
+          link.setAttribute(
+            "href",
+            "data:" + mimeType + ";charset=utf-8," + encodeURIComponent(data)
+          );
+          link.click();
+        });
+
+      document
+        .querySelector("#download-simplified")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          let fileName = "niteco-signature-simple.htm",
+            mimeType = "text/plain",
+            data =
+              document.querySelector("iframe#simplified-html").contentDocument.body.innerHTML;
           var link = document.createElement("a");
           link.setAttribute("download", fileName);
           link.setAttribute(
