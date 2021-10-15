@@ -304,146 +304,148 @@
         el.fireEvent("on" + e.eventType, e);
       }
     }
-    document.querySelector("iframe").addEventListener("load", function () {
-      let iFrameDoc = document.querySelectorAll("iframe");
-      document.querySelectorAll(".form-control").forEach(function (ele, i) {
-        let targetId = ele.getAttribute("target");
-        if (!targetId) return;
-        iFrameDoc.forEach(function (element, index) {
-          let targetEle = element.contentDocument.querySelector(targetId);
-          console.log(targetId, targetEle);
-          if (!targetEle) return;
-          ele.value = targetEle.innerHTML;
-          ele.addEventListener("input", function (e) {
-            targetEle.innerHTML = e.target.value;
-            if (targetEle.tagName === "A") {
-              if (targetId.includes("phone") || targetId.includes("mobile")) {
-                targetEle.setAttribute(
-                  "href",
-                  "tel:" + e.target.value.replace("(0)", "").replace(/ /g, "")
-                );
-              } else if (targetId.includes("email")) {
-                targetEle.setAttribute(
-                  "href",
-                  "mailto:" + e.target.value.trim()
-                );
-              } else if (targetId.includes("skype")) {
-                targetEle.setAttribute(
-                  "href",
-                  "skype:" + e.target.value.trim()
-                );
-              } else {
-                targetEle.setAttribute("href", "https://" + e.target.value);
+    document
+      .querySelector("iframe#simplified-html")
+      .addEventListener("load", function () {
+        let iFrameDoc = document.querySelectorAll("iframe");
+        document.querySelectorAll(".form-control").forEach(function (ele, i) {
+          let targetId = ele.getAttribute("target");
+          if (!targetId) return;
+          iFrameDoc.forEach(function (element, index) {
+            let targetEle = element.contentDocument.querySelector(targetId);
+            console.log(targetId, targetEle);
+            if (!targetEle) return;
+            ele.value = targetEle.innerHTML;
+            ele.addEventListener("input", function (e) {
+              targetEle.innerHTML = e.target.value;
+              if (targetEle.tagName === "A") {
+                if (targetId.includes("phone") || targetId.includes("mobile")) {
+                  targetEle.setAttribute(
+                    "href",
+                    "tel:" + e.target.value.replace("(0)", "").replace(/ /g, "")
+                  );
+                } else if (targetId.includes("email")) {
+                  targetEle.setAttribute(
+                    "href",
+                    "mailto:" + e.target.value.trim()
+                  );
+                } else if (targetId.includes("skype")) {
+                  targetEle.setAttribute(
+                    "href",
+                    "skype:" + e.target.value.trim()
+                  );
+                } else {
+                  targetEle.setAttribute("href", "https://" + e.target.value);
+                }
               }
+            });
+          });
+        });
+        document
+          .querySelector("#download")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
+            let fileName = "niteco-signature.htm",
+              mimeType = "text/plain",
+              data =
+                document.querySelector("iframe").contentDocument.body.innerHTML;
+            var link = document.createElement("a");
+            link.setAttribute("download", fileName);
+            link.setAttribute(
+              "href",
+              "data:" + mimeType + ";charset=utf-8," + encodeURIComponent(data)
+            );
+            link.click();
+          });
+
+        document
+          .querySelector("#download-simplified")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
+            let fileName = "niteco-signature-simple.htm",
+              mimeType = "text/plain",
+              data = document.querySelector("iframe#simplified-html")
+                .contentDocument.body.innerHTML;
+            var link = document.createElement("a");
+            link.setAttribute("download", fileName);
+            link.setAttribute(
+              "href",
+              "data:" + mimeType + ";charset=utf-8," + encodeURIComponent(data)
+            );
+            link.click();
+          });
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            populateData(JSON.parse(this.responseText));
+          }
+        };
+        xhttp.open("GET", "employees.json", true);
+        xhttp.send();
+        let populateData = function (employees) {
+          let search = document.querySelector("#search"),
+            suggestion = document.querySelector(".suggestion");
+          for (var i in employees) {
+            employees[i].index = i;
+          }
+          search.addEventListener("keyup", function (e) {
+            var key = e.which || e.keyCode;
+            console.log(key, e);
+            suggestion.focus();
+            //down = 40
+            //e.keyCode = 40
+          });
+          search.addEventListener("input", function (e) {
+            let val = e.target.value;
+            if (val.length >= 3) {
+              let html = employees
+                .filter(function (obj) {
+                  return (
+                    `${obj.GivenName} ${obj.LastName}`
+                      .toLowerCase()
+                      .indexOf(val.toLowerCase()) > -1
+                  );
+                })
+                .map(function (obj) {
+                  return `<div autofocus class="item" data-id="${
+                    obj.index
+                  }">${obj.Initials || ""} ${obj.GivenName} ${obj.LastName}</div> `;
+                })
+                .join("");
+              suggestion.innerHTML = html;
+              suggestion.classList.remove("hide");
+            } else {
+              suggestion.innerHTML = "";
+              suggestion.classList.add("hide");
             }
           });
-        });
-      });
-      document
-        .querySelector("#download")
-        .addEventListener("click", function (e) {
-          e.preventDefault();
-          let fileName = "niteco-signature.htm",
-            mimeType = "text/plain",
-            data =
-              document.querySelector("iframe").contentDocument.body.innerHTML;
-          var link = document.createElement("a");
-          link.setAttribute("download", fileName);
-          link.setAttribute(
-            "href",
-            "data:" + mimeType + ";charset=utf-8," + encodeURIComponent(data)
-          );
-          link.click();
-        });
-
-      document
-        .querySelector("#download-simplified")
-        .addEventListener("click", function (e) {
-          e.preventDefault();
-          let fileName = "niteco-signature-simple.htm",
-            mimeType = "text/plain",
-            data =
-              document.querySelector("iframe#simplified-html").contentDocument.body.innerHTML;
-          var link = document.createElement("a");
-          link.setAttribute("download", fileName);
-          link.setAttribute(
-            "href",
-            "data:" + mimeType + ";charset=utf-8," + encodeURIComponent(data)
-          );
-          link.click();
-        });
-      xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          populateData(JSON.parse(this.responseText));
-        }
-      };
-      xhttp.open("GET", "employees.json", true);
-      xhttp.send();
-      let populateData = function (employees) {
-        let search = document.querySelector("#search"),
-          suggestion = document.querySelector(".suggestion");
-        for (var i in employees) {
-          employees[i].index = i;
-        }
-        search.addEventListener("keyup", function (e) {
-          var key = e.which || e.keyCode;
-          console.log(key, e);
-          suggestion.focus();
-          //down = 40
-          //e.keyCode = 40
-        });
-        search.addEventListener("input", function (e) {
-          let val = e.target.value;
-          if (val.length >= 3) {
-            let html = employees
-              .filter(function (obj) {
-                return (
-                  `${obj.GivenName} ${obj.LastName}`
-                    .toLowerCase()
-                    .indexOf(val.toLowerCase()) > -1
-                );
-              })
-              .map(function (obj) {
-                return `<div autofocus class="item" data-id="${
-                  obj.index
-                }">${obj.Initials || ""} ${obj.GivenName} ${obj.LastName}</div> `;
-              })
-              .join("");
-            suggestion.innerHTML = html;
-            suggestion.classList.remove("hide");
-          } else {
-            suggestion.innerHTML = "";
+          suggestion.addEventListener("click", function (e) {
+            let id = e.target.dataset.id,
+              currentUser = employees[id];
             suggestion.classList.add("hide");
-          }
-        });
-        suggestion.addEventListener("click", function (e) {
-          let id = e.target.dataset.id,
-            currentUser = employees[id];
-          suggestion.classList.add("hide");
-          console.log(currentUser);
-          populateUser(currentUser);
-        });
-        let populateUser = function (obj) {
-          let map = new Map(
-            Object.entries({
-              "#ni-full-name": `${obj.Initials || ""} ${obj.GivenName} ${
-                obj.LastName
-              }`,
-              "#ni-job-title": `${obj.Position}`,
-              "#ni-mobile": `${obj.Phone}`,
-              "#ni-email": `${obj.Email}`,
-              "#ni-skype": `${obj.Skype}`,
-            })
-          );
-          console.log(map);
-          map.forEach(function (value, key, map) {
-            let ele = document.querySelector(`[target="${key}"]`);
-            ele.value = value;
-            triggerEvent(ele, "input");
+            console.log(currentUser);
+            populateUser(currentUser);
           });
+          let populateUser = function (obj) {
+            let map = new Map(
+              Object.entries({
+                "#ni-full-name": `${obj.Initials || ""} ${obj.GivenName} ${
+                  obj.LastName
+                }`,
+                "#ni-job-title": `${obj.Position}`,
+                "#ni-mobile": `${obj.Phone}`,
+                "#ni-email": `${obj.Email}`,
+                "#ni-skype": `${obj.Skype}`,
+              })
+            );
+            console.log(map);
+            map.forEach(function (value, key, map) {
+              let ele = document.querySelector(`[target="${key}"]`);
+              ele.value = value;
+              triggerEvent(ele, "input");
+            });
+          };
         };
-      };
-    });
+      });
   </script>
 </html>
