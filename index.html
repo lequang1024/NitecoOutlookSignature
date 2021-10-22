@@ -1,83 +1,95 @@
 <!DOCTYPE >
 <html>
-  <head>
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-    />
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <style type="text/css">
-      .btn.focus,
-      .btn:focus,
-      .btn:hover {
-        color: yellow;
-      }
-      .unselect {
-        user-drag: none;
-        user-select: none;
-        -moz-user-select: none;
-        -webkit-user-drag: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-      }
-      .zoom {
-        zoom: 2;
-        -moz-transform: scale(2);
-        -moz-transform-origin: 0 0;
-        -o-transform: scale(2);
-        -o-transform-origin: 0 0;
-        -webkit-transform: scale(2);
-        -webkit-transform-origin: 0 0;
-      }
-      .ni-form {
-        padding: 20px;
-        background-color: #efefef;
-      }
-      .ni-button {
-        background-color: #262524;
-        color: #f6bc25;
-      }
-      .form-group {
-        margin-bottom: 10px;
-      }
-      .form-horizontal .control-label {
-        padding: 7px 0 0;
-      }
-      textarea {
-        resize: none;
-      }
-      .suggestion {
-        position: absolute;
-        border: 1px solid #ccc;
-        width: calc(100% - 30px);
-        border-radius: 0 0 5px 5px;
-        background-color: #fff;
-        overflow: auto;
-        max-height: 300px;
-        z-index: 1;
-        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
-      }
-      .hide {
-        opacity: 0;
-        pointer-events: none;
-      }
-      .item {
-        padding: 10px 20px;
-        border-bottom: 1px solid #eee;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
-      .item:hover {
-        background-color: #efefef;
-      }
+        .btn.focus,
+        .btn:focus,
+        .btn:hover {
+            color: yellow;
+        }
+        
+        .unselect {
+            user-drag: none;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-drag: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+        
+        .zoom {
+            zoom: 2;
+            -moz-transform: scale(2);
+            -moz-transform-origin: 0 0;
+            -o-transform: scale(2);
+            -o-transform-origin: 0 0;
+            -webkit-transform: scale(2);
+            -webkit-transform-origin: 0 0;
+        }
+        
+        .ni-form {
+            padding: 20px;
+            background-color: #efefef;
+        }
+        
+        .ni-button {
+            background-color: #262524;
+            color: #f6bc25;
+        }
+        
+        .form-group {
+            margin-bottom: 10px;
+        }
+        
+        .form-horizontal .control-label {
+            padding: 7px 0 0;
+        }
+        
+        textarea {
+            resize: none;
+        }
+        
+        .suggestion {
+            position: absolute;
+            border: 1px solid #ccc;
+            width: calc(100% - 30px);
+            border-radius: 0 0 5px 5px;
+            background-color: #fff;
+            overflow: auto;
+            max-height: 300px;
+            z-index: 1;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+        }
+        
+        .hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .item {
+            padding: 10px 20px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .item:hover {
+            background-color: #efefef;
+        }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="container-fluid">
-      <center><h3>Niteco signature -- for Outlook</h3></center>
-      <hr />
-      <div class="row">
-        <div class="col-md-6">
-          <!-- <div class="form-group">
+        <center>
+            <h3>Niteco signature -- for Outlook</h3>
+        </center>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <!-- <div class="form-group">
             <div class="input-group">
               <input
                 type="text"
@@ -94,10 +106,9 @@
             <div class="suggestion hide"></div>
           </div> -->
 
-          <form class="form-horizontal ni-form">
-            <div class="form-group">
-              <label class="control-label col-md-4" for="full-name"
-                >Full name:</label
+                <form class="form-horizontal ni-form">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="full-name">Full name:</label
               >
               <div class="col-md-8">
                 <input
@@ -131,52 +142,27 @@
 
             <div class="form-group">
               <label class="control-label col-md-4" for="mobile">Mobile:</label>
-              <div class="col-md-8">
-                <input
-                  type="tel"
-                  id="mobile"
-                  name="mobile"
-                  class="form-control"
-                  placeholder="Enter mobile"
-                  autocomplete="off"
-                  target="#ni-mobile"
-                />
-              </div>
-            </div>
+                        <div class="col-md-8">
+                            <input type="tel" id="mobile" name="mobile" class="form-control" placeholder="Enter mobile" autocomplete="off" target="#ni-mobile" />
+                        </div>
+                    </div>
 
-            <div class="form-group">
-              <label class="control-label col-md-4" for="skype">Skype:</label>
-              <div class="col-md-8">
-                <input
-                  type="text"
-                  id="skype"
-                  name="skype"
-                  class="form-control"
-                  placeholder="Enter skype"
-                  autocomplete="off"
-                  target="#ni-skype"
-                />
-              </div>
-            </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="skype">Skype:</label>
+                        <div class="col-md-8">
+                            <input type="text" id="skype" name="skype" class="form-control" placeholder="Enter skype" autocomplete="off" target="#ni-skype" />
+                        </div>
+                    </div>
 
-            <div class="form-group">
-              <label class="control-label col-md-4" for="email">Email:</label>
-              <div class="col-md-8">
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  class="form-control"
-                  placeholder="Enter email"
-                  autocomplete="off"
-                  target="#ni-email"
-                />
-              </div>
-            </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="email">Email:</label>
+                        <div class="col-md-8">
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter email" autocomplete="off" target="#ni-email" />
+                        </div>
+                    </div>
 
-            <div class="form-group">
-              <label class="control-label col-md-4" for="website"
-                >Website:</label
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="website">Website:</label
               >
               <div class="col-md-8">
                 <input
@@ -281,7 +267,7 @@
         <li>After restart, you can select new signature: "niteco-signature"</li>
       </ol>
       <p>
-        * If you're using a <b>Macbook</b>, please follow this guideline:<br />
+        * If you're using a <b>Macbook</b> or <b>Outlook 2019 on Windows</b>, please follow this guideline:<br />
         <a
           href="https://thecreativenoise.com/resources/install-email-signature-outlook-mac-2016"
           target="_blank"
